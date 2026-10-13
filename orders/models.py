@@ -26,7 +26,7 @@ class Order(models.Model):
         ordering = ['-created_at'] 
         constraints = [
             models.CheckConstraint(
-                check=models.Q(total_price__gte=0),
+                condition=models.Q(total_price__gte=0),
                 name='total_price_non_negative'
             ),
         ]
@@ -46,12 +46,12 @@ class OrderItem(models.Model):
         verbose_name_plural = 'Order Items'
         constraints = [
             models.CheckConstraint(
-                check=models.Q(quantity__gt=0),
+                condition=models.Q(quantity__gt=0),
                 name='quantity_positive'
             ),
             models.CheckConstraint(
-                check=models.Q(unit_price__gte=0),
-                name='price_non_negative'
+                condition=models.Q(unit_price__gt=0),
+                name='unit_price_positive'
             ),
             models.UniqueConstraint(
                 fields=['order', 'product'],
